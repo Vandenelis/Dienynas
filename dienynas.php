@@ -8,20 +8,23 @@ if (isset($_GET['submitted'])) {
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
+
 $peopleFilename = 'people.txt';
 @$peopleFile = fopen(@$peopleFilename, "r");
 $studentListWarning = " ";
+$warningName = "mokinių sąrašu";
 if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
-    $studentListWarning = (include 'studentListWarning.php');
+    $studentListWarning = (include 'warning.php');
+}
+@$marksFile = fopen(@$marksFilename, "r");
+$studentMarksWarning = " ";
+$warningName = "mokinių pažymiais";
+if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
+    $studentMarksWarning = (include 'warning.php');
 }
 $studentOptions = "";
 for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) {
     $studentOptions .= "<option>{$line}</option>";
-}
-@$marksFile = fopen(@$marksFilename, "r");
-$studentMarksWarning = " ";
-if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
-    $studentMarksWarning = (include 'studentMarksWarning.php');
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -30,7 +33,7 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
         <title>Naujo pažymio įvedimas</title>
     </head>
     <body>
-        <?php $studentMarksWarning.$studentListWarning?> 
+        <?php $studentListWarning.$studentMarksWarning?> 
         <p><?= $saved?></p>
         <h2>Įrašykite pažymį</h2>
         <form action = '' method = 'get'>
