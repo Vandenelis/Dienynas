@@ -11,16 +11,16 @@ if (isset($_GET['submitted'])) {
 
 $peopleFilename = 'people.txt';
 @$peopleFile = fopen(@$peopleFilename, "r");
-$studentListWarning = " ";
+$warning = " ";
 $warningName = "mokinių sąrašu";
 if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
-    $studentListWarning = (include 'warning.php');
+    $warning = (include 'warning.php');
 }
 @$marksFile = fopen(@$marksFilename, "r");
-$studentMarksWarning = " ";
+$warning = " ";
 $warningName = "mokinių pažymiais";
 if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
-    $studentMarksWarning = (include 'warning.php');
+    $warning = (include 'warning.php');
 }
 $studentOptions = "";
 for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) {
@@ -33,7 +33,7 @@ for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile))
         <title>Naujo pažymio įvedimas</title>
     </head>
     <body>
-        <?php $studentListWarning.$studentMarksWarning?> 
+        <?php $warning?> 
         <p><?= $saved?></p>
         <h2>Įrašykite pažymį</h2>
         <form action = '' method = 'get'>
