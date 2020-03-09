@@ -8,16 +8,16 @@ if (isset($_GET['submitted'])) {
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
-$peopleFilename = 'people.txt';
-@$peopleFile = fopen(@$peopleFilename, "r");
-if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
-    $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
-    include 'errorTemplate.php';
-    exit();
-}
 @$marksFile = fopen(@$marksFilename, "r");
 if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
+    include 'errorTemplate.php';
+    exit();
+}   
+    $peopleFilename = 'people.txt';
+@$peopleFile = fopen(@$peopleFilename, "r");
+if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
+    $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
     include 'errorTemplate.php';
     exit();
 }
