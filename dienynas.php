@@ -8,17 +8,18 @@ if (isset($_GET['submitted'])) {
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
-
 $peopleFilename = 'people.txt';
 @$peopleFile = fopen(@$peopleFilename, "r");
-$warningName = "mokinių sąrašu";
 if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
-    include 'warning.php';
+    $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
+    include 'errorTemplate.php';
+    exit();
 }
 @$marksFile = fopen(@$marksFilename, "r");
-$warningName = "mokinių pažymiais";
 if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
-    include 'warning.php';
+    $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
+    include 'errorTemplate.php';
+    exit();
 }
 $studentOptions = "";
 for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) {
