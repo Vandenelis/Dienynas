@@ -4,6 +4,11 @@ error_reporting(E_ALL);
 $saved = " ";
 $marksFilename = 'marks.txt';
 if (isset($_GET['submitted'])) {
+    if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
+        $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
+        include 'errorTemplate.php';
+        exit();
+    }
     $studentMark = $_GET['student']." ".$_GET['subject']." ".$_GET['mark']."\n";
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
