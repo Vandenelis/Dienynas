@@ -1,36 +1,29 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+$marksFilename = 'marks.txt';
+@$marksFile = fopen(@$marksFilename, "r");
+if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
+    $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
+    include 'errorTemplate.php';
+    exit();
+}
+@$peopleFile = fopen(@$peopleFilename, "r");
+$peopleFilename = 'people.txt';
+if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
+    $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
+    include 'errorTemplate.php';
+    exit();
+}
 $saved = " ";
-function marksFilenameError (){
-    $marksFilename = 'marks.txt';
-    if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
-        $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
-        include 'errorTemplate.php';
-        exit();
-    }
-}
-function peopleFilenameError (){
-    $peopleFilename = 'people.txt';
-    if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
-        $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
-        include 'errorTemplate.php';
-        exit();
-    }
-}
 if (isset($_GET['submitted'])) {
-    marksFilenameError ();
-    peopleFilenameError ();
     $studentMark = $_GET['student']." ".$_GET['subject']." ".$_GET['mark']."\n";
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
-@$marksFile = fopen(@$marksFilename, "r");
-marksFilenameError ();
-$peopleFilename = 'people.txt';
-@$peopleFile = fopen(@$peopleFilename, "r");
-peopleFilenameError ();
 $studentOptions = "";
+@$peopleFile = fopen(@$peopleFilename, "r");
+$peopleFilename = 'people.txt';
 for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) {
     $studentOptions .= "<option>{$line}</option>";
 }
