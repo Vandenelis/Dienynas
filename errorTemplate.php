@@ -4,9 +4,6 @@
         <title>Naujo pažymio įvedimas</title>
     </head>
     <body>
-        <div>Nepavyksta atidaryti failo su <?= $warningName?>!</div>
+        <div><?= $errorMessage?></div>
     </body>
 </html>
-    <?php
-    exit();
-    ?>
