@@ -16,8 +16,8 @@ if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
     exit();
 }
 $saved = " ";
-if (isset($_GET['submitted'])) {
-    $studentMark = $_GET['student']." ".$_GET['subject']." ".$_GET['mark']."\n";
+if (isset($_POST['submitted'])) {
+    $studentMark = $_POST['student']." ".$_POST['subject']." ".$_POST['mark']."\n";
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
@@ -36,11 +36,11 @@ for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile))
     <body>
         <p><?= $saved?></p>
         <h2>Įrašykite pažymį</h2>
-        <form action = '' method = 'get'>
+        <form action = '' method = 'post'>
             <div>Mokinys:</div>
             <div>
                 <select name = 'student'>
-                    <?= $studentOptions ?>
+                    <?= $studentOptions?>
                 </select>
             </div>
             <div>Dalykas:</div>
