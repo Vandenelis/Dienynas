@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 $marksFilename = 'marks.txt';
 @$marksFile = fopen(@$marksFilename, "r");
-if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
+if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
     include 'errorTemplate.php';
     exit();
@@ -17,14 +17,18 @@ if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
 }
 $saved = " ";
 if (isset($_POST['submitted'])) {
-    $studentMark = $_POST['student']." ".$_POST['subject']." ".$_POST['mark']."\n";
+    $_POST['student'] = str_replace(" ", ",", $_POST['student']);
+    $_POST['student'] = str_replace("_", " ", $_POST['student']);
+    $studentMark = $_POST['student'].",".$_POST['subject'].",".$_POST['mark']."\n";
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
-$studentOptions = "";
+$studentOptions = " ";
 @$peopleFile = fopen(@$peopleFilename, "r");
 $peopleFilename = 'people.txt';
 for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) {
+    $line = str_replace(" ", "_", $line);
+    $line = str_replace(",", " ", $line);
     $studentOptions .= "<option>{$line}</option>";
 }
 ?>

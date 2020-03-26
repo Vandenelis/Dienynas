@@ -8,9 +8,9 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     include 'errorTemplate.php';
     exit();
 }
-$studentData = " ";
+$studentData = ",";
 for ($line = fgets($marksFile), $i = 1; !feof($marksFile); $line = fgets($marksFile), $i++) {
-    $studentDataChunk = explode (" ", $line);
+    $studentDataChunk = explode (",", $line);
     $studentData .= "<tr><td>".$i."</td><td>".$studentDataChunk[0]."</td><td>".$studentDataChunk[1]."</td><td>".$studentDataChunk[2]."</td><td>".$studentDataChunk[3]."</td></tr>";
 }
 ?>
