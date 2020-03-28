@@ -27,8 +27,8 @@ $studentOptions = " ";
 @$peopleFile = fopen(@$peopleFilename, "r");
 $peopleFilename = 'people.txt';
 for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) {
-    $line = str_replace(" ", "_", $line);
-    $line = str_replace(",", " ", $line);
+    $line = str_replace(",.", "_", $line);    
+    $line = str_replace(",", " ", $line);    
     $studentOptions .= "<option>{$line}</option>";
 }
 ?>
