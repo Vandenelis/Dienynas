@@ -9,27 +9,23 @@ if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
     exit();
 }
 @$peopleFile = fopen(@$peopleFilename, "r");
-$peopleFilename = 'people.txt';
+$peopleFilename = 'students.csv';
 if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
     include 'errorTemplate.php';
     exit();
 }
 $saved = " ";
-if (isset($_POST['submitted'])) {
-    $_POST['student'] = str_replace(" ", ",", $_POST['student']);
-    $_POST['student'] = str_replace("_", " ", $_POST['student']);
+if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark'])) {
     $studentMark = $_POST['student'].",".$_POST['subject'].",".$_POST['mark']."\n";
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
 $studentOptions = " ";
 @$peopleFile = fopen(@$peopleFilename, "r");
-$peopleFilename = 'people.txt';
-for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) {
-    $line = str_replace(",.", "_", $line);    
-    $line = str_replace(",", " ", $line);    
-    $studentOptions .= "<option>{$line}</option>";
+for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) { 
+    $names = explode(",", $line);
+    $studentOptions .= "<option value = '$names[0],$names[1]'>{$names[0]} {$names[1]}</option>";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
