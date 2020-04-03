@@ -18,6 +18,7 @@ if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
 $saved = " ";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark'])) {
     $studentMark = $_POST['student'].",".$_POST['subject'].",".$_POST['mark']."\n";
+    $studentMark = str_replace("\r\n", "", $studentMark);
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
