@@ -8,9 +8,9 @@ if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
     include 'errorTemplate.php';
     exit();
 }
-@$peopleFile = fopen(@$peopleFilename, "r");
-$peopleFilename = 'students.csv';
-if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
+@$studentsFile = fopen(@$studentsFilename, "r");
+$studentsFilename = 'students.csv';
+if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
     include 'errorTemplate.php';
     exit();
@@ -23,10 +23,10 @@ if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark
     $saved = "Išsaugota";
 }
 $studentOptions = " ";
-@$peopleFile = fopen(@$peopleFilename, "r");
-for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) { 
+@$studentsFile = fopen(@$studentsFilename, "r");
+for ($line = fgets($studentsFile); !feof($studentsFile); $line = fgets($studentsFile)) { 
     $names = explode(",", $line);
-    $studentOptions .= "<option value = '$names[0],$names[1]'>{$names[0]} {$names[1]}</option>";
+    $studentOptions .= "<option value = '$line'>{$names[0]} {$names[1]}</option>";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
