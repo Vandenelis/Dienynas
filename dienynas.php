@@ -18,13 +18,13 @@ if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
 $saved = " ";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark'])) {
     $studentMark = $_POST['student'].",".$_POST['subject'].",".$_POST['mark']."\n";
-    $studentMark = str_replace("\r\n", "", $studentMark);
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
 $studentOptions = " ";
 @$studentsFile = fopen(@$studentsFilename, "r");
 for ($line = fgets($studentsFile); !feof($studentsFile); $line = fgets($studentsFile)) { 
+    $line = trim($line);
     $names = explode(",", $line);
     $studentOptions .= "<option value = '$line'>{$names[0]} {$names[1]}</option>";
 }
