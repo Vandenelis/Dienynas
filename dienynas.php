@@ -3,29 +3,30 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 $marksFilename = 'marks.txt';
 @$marksFile = fopen(@$marksFilename, "r");
-if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
+if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
     include 'errorTemplate.php';
     exit();
 }
-@$peopleFile = fopen(@$peopleFilename, "r");
-$peopleFilename = 'people.txt';
-if (!file_exists($peopleFilename) or !is_readable($peopleFilename)) {
+@$studentsFile = fopen(@$studentsFilename, "r");
+$studentsFilename = 'students.csv';
+if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
     include 'errorTemplate.php';
     exit();
 }
 $saved = " ";
-if (isset($_POST['submitted'])) {
-    $studentMark = $_POST['student']." ".$_POST['subject']." ".$_POST['mark']."\n";
+if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark'])) {
+    $studentMark = $_POST['student'].",".$_POST['subject'].",".$_POST['mark']."\n";
     file_put_contents($marksFilename, $studentMark, FILE_APPEND);
     $saved = "Išsaugota";
 }
-$studentOptions = "";
-@$peopleFile = fopen(@$peopleFilename, "r");
-$peopleFilename = 'people.txt';
-for ($line = fgets($peopleFile); !feof($peopleFile); $line = fgets($peopleFile)) {
-    $studentOptions .= "<option>{$line}</option>";
+$studentOptions = " ";
+@$studentsFile = fopen(@$studentsFilename, "r");
+for ($line = fgets($studentsFile); !feof($studentsFile); $line = fgets($studentsFile)) { 
+    $line = trim($line);
+    $names = explode(",", $line);
+    $studentOptions .= "<option value = '$line'>{$names[0]} {$names[1]}</option>";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">

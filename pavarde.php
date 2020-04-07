@@ -20,7 +20,9 @@ Pavardė:<br>
 </form>
     <?php
 } else {
-    $duomenys = $_GET['vardas']." ".$_GET['pavarde']."\n";
+    $_GET['vardas'] = str_replace(" ", ",.", $_GET['vardas']);
+    $_GET['pavarde'] = str_replace(" ", ",.", $_GET['pavarde']);
+    $duomenys = $_GET['vardas'].",".$_GET['pavarde']."\n";
     file_put_contents($filename, $duomenys, FILE_APPEND);
     echo "Išsaugota";
 }
