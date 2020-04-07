@@ -26,7 +26,11 @@ $studentOptions = " ";
 for ($line = fgets($studentsFile); !feof($studentsFile); $line = fgets($studentsFile)) { 
     $line = trim($line);
     $names = explode(",", $line);
-    $studentOptions .= "<option value = '$line'>{$names[0]} {$names[1]}</option>";
+    if (count($names)>2) {
+        $studentOptions .= "<option value = '$names[0] $names[1],$names[2]'>{$names[0]},{$names[1]} {$names[2]}</option>";
+    } else {
+        $studentOptions .= "<option value = '$line'>{$names[0]} {$names[1]}</option>";
+    }
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">

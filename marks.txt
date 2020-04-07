@@ -6,3 +6,4 @@ Ugnė,Liepsnaitė,Dailė,3
 Dick,von Lieberman,Fizika,4
 Ugnė,Liepsnaitė,Literatūra,10
 Vardenis,Pavardenis,Lietuvių kalba,8
+Adam Edvin,Malevski,Matematika,7
