@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-$marksFilename = 'marks.txt';
+$marksFilename = 'marks.csv';
 @$marksFile = fopen(@$marksFilename, "r");
 if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
@@ -9,10 +9,15 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     exit();
 }
 $studentData = " ";
-for ($line = fgets($marksFile), $i = 1; !feof($marksFile); $line = fgets($marksFile), $i++) {
-    $studentDataChunk = explode (",", $line);
-    $studentDataChunk[0] = str_replace(" ", ",", $studentDataChunk[0]);
-    $studentData .= "<tr><td>".$i."</td><td>{$studentDataChunk[0]}</td><td>{$studentDataChunk[1]}</td><td>{$studentDataChunk[2]}</td><td>{$studentDataChunk[3]}</td></tr>";
+$i = 0;
+if (($handle = fopen('marks.csv', 'r')) !== FALSE) {
+    while (($studentDataLine = fgetcsv($handle, ",")) !== FALSE) {
+        $i++;
+        $studentDataChunk = explode (",", $studentDataLine[0]);
+        $studentDataChunk = str_replace("_", ", ", $studentDataChunk);
+        $studentData .= "<tr><td>".$i."</td><td>{$studentDataChunk[0]}</td><td>{$studentDataChunk[1]}</td><td>{$studentDataLine[1]}</td><td>{$studentDataLine[2]}</td><td>{$studentDataLine[3]}</td></tr>";
+    }
+    fclose($handle);
 }
 ?>
 <!DOCTYPE html>
@@ -28,6 +33,7 @@ for ($line = fgets($marksFile), $i = 1; !feof($marksFile); $line = fgets($marksF
                 <th>Pavardė</th>
                 <th>Dalykas</th>
                 <th>Pažymys</th>
+                <th>Pastabos, komentarai</th>
             </tr>
             <?= $studentData?>
         </table>
