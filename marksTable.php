@@ -2,7 +2,6 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 $marksFilename = 'marks.csv';
-@$marksFile = fopen(@$marksFilename, "r");
 if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
     include 'errorTemplate.php';
@@ -10,14 +9,12 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
 }
 $studentData = " ";
 $i = 0;
-if (($handle = fopen('marks.csv', 'r')) !== FALSE) {
-    while (($studentDataLine = fgetcsv($handle, ",")) !== FALSE) {
+if (($marksFile = fopen($marksFilename, "r")) !== FALSE) {
+    while (($studentDataLine = fgetcsv($marksFile, ",")) !== FALSE) {
         $i++;
-        $studentDataChunk = explode (",", $studentDataLine[0]);
-        $studentDataChunk = str_replace("_", ", ", $studentDataChunk);
-        $studentData .= "<tr><td>".$i."</td><td>{$studentDataChunk[0]}</td><td>{$studentDataChunk[1]}</td><td>{$studentDataLine[1]}</td><td>{$studentDataLine[2]}</td><td>{$studentDataLine[3]}</td></tr>";
+        $studentData .= "<tr><td>".$i."</td><td>{$studentDataLine[0]}</td><td>{$studentDataLine[1]}</td><td>{$studentDataLine[2]}</td><td>{$studentDataLine[3]}</td><td>{$studentDataLine[4]}</td><td>{$studentDataLine[5]}</td><td>{$studentDataLine[6]}</td></tr>";
     }
-    fclose($handle);
+    fclose($marksFile);
 }
 ?>
 <!DOCTYPE html>
@@ -30,7 +27,9 @@ if (($handle = fopen('marks.csv', 'r')) !== FALSE) {
             <tr>
                 <th>Eil. nr.</th>
                 <th>Vardas</th>
+                <th>Vardas</th>
                 <th>Pavardė</th>
+                <th>Mokinio numeris</th>
                 <th>Dalykas</th>
                 <th>Pažymys</th>
                 <th>Pastabos, komentarai</th>

@@ -1,7 +1,10 @@
-"Dick,von Lieberman",Matematika,7,"lu lu"
-"Juozas,Juozaitis",Matematika,7,"fu fu"
-"Giedrius,Giedraitis",Matematika,7,"nu nu"
-"Ugnė,Liepsnaitė",Matematika,7,"Pabėgo, bet grįžo"
-"Adam_Edvin,Malevski",Matematika,7,"išėjo, parėjo, sakau - sugrįžk!"
-"Juozas,Juozaitis",Matematika,7," "
-"Vardenis,Pavardenis",Matematika,7," "
+Adam,Edvin,Malevski,10005,Matematika,7,
+Vardenis,,Pavardenis,12345,Matematika,7,
+Dick,,"von Lieberman",10001,Matematika,7,
+Ugnė,,Liepsnaitė,10004,Matematika,7,
+Adam,Edvin,Malevski,10005,Matematika,7,
+Juozas,,Juozaitis,10002,Matematika,7,"Pabėgo iš pamokų, nes nepadarė namų darbų.
+Nusirašinėjo."
+Giedrius,,Giedraitis,10003,Matematika,7,"Puikiai padirbėjo!"
+Vardenis,,Pavardenis,12345,Matematika,7,
+Adam,Edvin,Malevski,10005,Matematika,7,
