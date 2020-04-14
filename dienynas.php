@@ -16,24 +16,24 @@ if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
 }
 
 $saved = "";
+$studentDataChunks = "";
 $studentNumber = "";
-$studentName1 = "";
-$studentName2 = "";
+$studentName = "";
 $studentSurname = "";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {
     $studentsFile = fopen($studentsFilename, "r");
     if ($studentsFile !== FALSE) {
-        while (($name = fgetcsv($studentsFile, ",")) !== FALSE) {
-            if (in_array($_POST['student'], $name)) {
-                $studentName1 = $name[0];
-                $studentName2 = $name[1];
-                $studentSurname = $name[2];
-                $studentNumber = $_POST['student'];
+        while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
+            if (in_array($_POST['student'], $studentData)) {
+                $studentData[2] = str_replace("  ", ", ", $studentData[2]);
+                $studentName = $studentData[2];
+                $studentSurname = $studentData[1];
+                $studentNumber = $studentData[0];
             } 
         }
         fclose($studentsFile);
     }
-    $studentMark = [$studentName1, $studentName2, $studentSurname, $studentNumber, $_POST['subject'], $_POST['mark'], $_POST['notes']];
+    $studentMark = [$studentName, $studentSurname, $studentNumber, $_POST['subject'], $_POST['mark'], $_POST['notes']];
     $marksFile = fopen($marksFilename, 'a');
     fputcsv($marksFile, $studentMark);
     $saved = "Išsaugota";
@@ -43,12 +43,9 @@ if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark
 $studentOptions = "";
 $studentsFile = fopen($studentsFilename, "r");
 if ($studentsFile !== FALSE) {
-    while (($name = fgetcsv($studentsFile, ",")) !== FALSE) {
-        if(!empty ($name[1])) {
-            $studentOptions .= "<option value = '$name[3]'>{$name[0]}, {$name[1]} {$name[2]}</option>";
-        } else {
-            $studentOptions .= "<option value = '$name[3]'>{$name[0]} {$name[1]} {$name[2]}</option>";
-        }
+    while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
+        $studentData[2] = str_replace("  ", ", ", $studentData[2]);
+        $studentOptions .= "<option value = '$studentData[0]'>{$studentData[2]} {$studentData[1]} </option>";
     }
     fclose($studentsFile);
 }

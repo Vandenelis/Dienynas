@@ -12,7 +12,7 @@ $i = 0;
 if (($marksFile = fopen($marksFilename, "r")) !== FALSE) {
     while (($studentDataLine = fgetcsv($marksFile, ",")) !== FALSE) {
         $i++;
-        $studentData .= "<tr><td>".$i."</td><td>{$studentDataLine[0]}</td><td>{$studentDataLine[1]}</td><td>{$studentDataLine[2]}</td><td>{$studentDataLine[3]}</td><td>{$studentDataLine[4]}</td><td>{$studentDataLine[5]}</td><td>{$studentDataLine[6]}</td></tr>";
+        $studentData .= "<tr><td>".$i."</td><td>{$studentDataLine[0]}</td><td>{$studentDataLine[1]}</td><td>{$studentDataLine[2]}</td><td>{$studentDataLine[3]}</td><td>{$studentDataLine[4]}</td><td>{$studentDataLine[5]}</td></tr>";
     }
     fclose($marksFile);
 }
@@ -26,7 +26,6 @@ if (($marksFile = fopen($marksFilename, "r")) !== FALSE) {
         <table border = 1>
             <tr>
                 <th>Eil. nr.</th>
-                <th>Vardas</th>
                 <th>Vardas</th>
                 <th>Pavardė</th>
                 <th>Mokinio numeris</th>

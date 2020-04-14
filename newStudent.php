@@ -1,20 +1,22 @@
+<?php
+$filename = 'students.csv';
+if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {
+    $_POST['vardas'] = str_replace(",", " ", $_POST['vardas']);
+    $duomenys = $_POST['numeris'].",".$_POST['pavarde'].",".$_POST['vardas']."\n";
+    file_put_contents($filename, $duomenys, FILE_APPEND);
+    echo "Išsaugota";
+}
+?>
 <!DOCTYPE html>
 <html lang="lt">
 <head>
 <title>Vardai ir Pavardės</title>
 </head>
 <body>
-<?php
-$filename = 'students.csv';
-if (empty($_GET['vardas']) or empty($_GET['pavarde']) or empty($_GET['numeris'])) {
-    ?>
 <h2>Įrašykite naujo mokinio duomenis</h2>
-<form method="get">
+<form method="post">
 Vardas:<br>
 <input type="text" name="vardas" value="Vardenis">
-<br>
-Vardas:<br>
-<input type="text" name="vardas2" value="">
 <br>
 Pavardė:<br>
 <input type="text" name="pavarde" value="Pavardenis">
@@ -24,12 +26,5 @@ Mokinio numeris:<br>
 <br>
 <input type="submit" value="Išsaugoti">
 </form>
-    <?php
-} else {
-    $duomenys = $_GET['vardas'].",".$_GET['vardas2'].",".$_GET['pavarde'].",".$_GET['numeris']."\n";
-    file_put_contents($filename, $duomenys, FILE_APPEND);
-    echo "Išsaugota";
-}
-?>
 </body>
 </html>
