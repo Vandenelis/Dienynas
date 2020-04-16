@@ -16,7 +16,6 @@ if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
 }
 
 $saved = "";
-$studentDataChunks = "";
 $studentNumber = "";
 $studentName = "";
 $studentSurname = "";
@@ -25,7 +24,6 @@ if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark
     if ($studentsFile !== FALSE) {
         while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
             if (in_array($_POST['student'], $studentData)) {
-                $studentData[2] = str_replace("  ", ", ", $studentData[2]);
                 $studentName = $studentData[2];
                 $studentSurname = $studentData[1];
                 $studentNumber = $studentData[0];
@@ -44,7 +42,6 @@ $studentOptions = "";
 $studentsFile = fopen($studentsFilename, "r");
 if ($studentsFile !== FALSE) {
     while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-        $studentData[2] = str_replace("  ", ", ", $studentData[2]);
         $studentOptions .= "<option value = '$studentData[0]'>{$studentData[2]} {$studentData[1]} </option>";
     }
     fclose($studentsFile);

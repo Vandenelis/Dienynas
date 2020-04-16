@@ -1,10 +1,17 @@
 <?php
-$filename = 'students.csv';
+$studentsFilename = 'students.csv';
+if (!file_exists($studentsFilename) or !is_writable($studentsFilename)) {
+    $errorMessage = "Nepavyksta atidaryti failo rašymui su mokinių sąrašu!";
+    include 'errorTemplate.php';
+    exit();
+}
+
 if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {
-    $_POST['vardas'] = str_replace(",", " ", $_POST['vardas']);
-    $duomenys = $_POST['numeris'].",".$_POST['pavarde'].",".$_POST['vardas']."\n";
-    file_put_contents($filename, $duomenys, FILE_APPEND);
+    $duomenys = [$_POST['numeris'], $_POST['pavarde'], $_POST['vardas']];
+    $studentsFile = fopen($studentsFilename, 'a');
+    fputcsv($studentsFile, $duomenys);
     echo "Išsaugota";
+    fclose($studentsFile);
 }
 ?>
 <!DOCTYPE html>
