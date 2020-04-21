@@ -21,16 +21,14 @@ $studentName = "";
 $studentSurname = "";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {
     $studentsFile = fopen($studentsFilename, "r");
-    if ($studentsFile !== FALSE) {
-        while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-            if (strpos($studentData[0], $_POST['student']) !== FALSE) {
-                $studentName = $studentData[2];
-                $studentSurname = $studentData[1];
-                $studentNumber = $studentData[0];
-            } 
-        }
-        fclose($studentsFile);
+    while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
+        if ($studentData[0] === $_POST['student']) {
+            $studentName = $studentData[2];
+            $studentSurname = $studentData[1];
+            $studentNumber = $studentData[0];
+        } 
     }
+    fclose($studentsFile);
     $studentMark = [$studentName, $studentSurname, $studentNumber, $_POST['subject'], $_POST['mark'], $_POST['notes']];
     $marksFile = fopen($marksFilename, 'a');
     fputcsv($marksFile, $studentMark);

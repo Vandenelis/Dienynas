@@ -1,16 +1,17 @@
 <?php
 $studentsFilename = 'students.csv';
-if (!file_exists($studentsFilename) or !is_writable($studentsFilename)) {
-    $errorMessage = "Nepavyksta atidaryti failo rašymui su mokinių sąrašu!";
+if (file_exists($studentsFilename) and (!is_writable($studentsFilename) or !is_readable($studentsFilename))) {
+    $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu rašymui arba skaitymui!";
     include 'errorTemplate.php';
     exit();
 }
 $saved = "";
 $studentNumberMessage = "";    
 if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {
-    if (($studentsFile = fopen($studentsFilename, "r")) !==FALSE) {
+    if (file_exists($studentsFilename)) {
+        $studentsFile = fopen($studentsFilename, "r");
         while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-            if (strpos($studentData[0], $_POST['numeris']) !== FALSE) {
+            if ($studentData[0] === $_POST['numeris']) {//veikia!
                 $studentNumberMessage = "Toks mokinio numeris jau panaudotas, įveskite kitą skaičių.";
             }
         }
@@ -18,7 +19,7 @@ if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['nu
     }
     if (empty($studentNumberMessage)) {
         $duomenys = [$_POST['numeris'], $_POST['pavarde'], $_POST['vardas']];
-        $studentsFile = fopen($studentsFilename, 'a');
+        $studentsFile = fopen($studentsFilename, 'a');//jei failo nėra, tai jis bus sukurtas
         fputcsv($studentsFile, $duomenys);
         fclose($studentsFile);
         $saved = "Išsaugota"; 
