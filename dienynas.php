@@ -1,32 +1,48 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-$marksFilename = 'marks.txt';
-@$marksFile = fopen(@$marksFilename, "r");
+
+$marksFilename = 'marks.csv';
 if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
-    $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais!";
+    $errorMessage = "Nepavyksta atidaryti failo rašymui su mokinių pažymiais!";
     include 'errorTemplate.php';
     exit();
 }
-@$studentsFile = fopen(@$studentsFilename, "r");
 $studentsFilename = 'students.csv';
 if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
-    $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu!";
+    $errorMessage = "Nepavyksta atidaryti failo skaitymui su mokinių sąrašu!";
     include 'errorTemplate.php';
     exit();
 }
-$saved = " ";
-if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark'])) {
-    $studentMark = $_POST['student'].",".$_POST['subject'].",".$_POST['mark']."\n";
-    file_put_contents($marksFilename, $studentMark, FILE_APPEND);
+
+$saved = "";
+$studentNumber = "";
+$studentName = "";
+$studentSurname = "";
+if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {
+    $studentsFile = fopen($studentsFilename, "r");
+    while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
+        if ($studentData[0] === $_POST['student']) {
+            $studentName = $studentData[2];
+            $studentSurname = $studentData[1];
+            $studentNumber = $studentData[0];
+        } 
+    }
+    fclose($studentsFile);
+    $studentMark = [$studentName, $studentSurname, $studentNumber, $_POST['subject'], $_POST['mark'], $_POST['notes']];
+    $marksFile = fopen($marksFilename, 'a');
+    fputcsv($marksFile, $studentMark);
     $saved = "Išsaugota";
+    fclose($marksFile);
 }
-$studentOptions = " ";
-@$studentsFile = fopen(@$studentsFilename, "r");
-for ($line = fgets($studentsFile); !feof($studentsFile); $line = fgets($studentsFile)) { 
-    $line = trim($line);
-    $names = explode(",", $line);
-    $studentOptions .= "<option value = '$line'>{$names[0]} {$names[1]}</option>";
+
+$studentOptions = "";
+$studentsFile = fopen($studentsFilename, "r");
+if ($studentsFile !== FALSE) {
+    while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
+        $studentOptions .= "<option value = '$studentData[0]'>{$studentData[2]} {$studentData[1]} </option>";
+    }
+    fclose($studentsFile);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -48,7 +64,9 @@ for ($line = fgets($studentsFile); !feof($studentsFile); $line = fgets($students
             <div><input type = 'text' name = 'subject' value = "Matematika"></div>
             <div>Pažymys:</div>
             <div><input type = 'text' name = 'mark' value = "7"></div>
-            <div><input type = 'submit' name = 'submitted' value = "Išsaugoti"></div>
+            <div>Pastabos, komentarai:</div>
+            <div><textarea rows = "5" cols = "50" name = "notes"></textarea></div>
+            <div><input type = 'submit' value = "Išsaugoti"></div>
         </form>
     </body>
 </html>
