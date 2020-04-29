@@ -22,10 +22,10 @@ $studentSurname = "";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {
     $studentsFile = fopen($studentsFilename, "r");
     while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-        if ($studentData[0] === $_POST['student']) {
-            $studentName = $studentData[2];
+        if ($studentData[2] === $_POST['student']) {
+            $studentName = $studentData[0];
             $studentSurname = $studentData[1];
-            $studentNumber = $studentData[0];
+            $studentNumber = $studentData[2];
         } 
     }
     fclose($studentsFile);
@@ -40,7 +40,7 @@ $studentOptions = "";
 $studentsFile = fopen($studentsFilename, "r");
 if ($studentsFile !== FALSE) {
     while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-        $studentOptions .= "<option value = '$studentData[0]'>{$studentData[2]} {$studentData[1]} </option>";
+        $studentOptions .= "<option value = '$studentData[2]'>{$studentData[0]} {$studentData[1]} </option>";
     }
     fclose($studentsFile);
 }
