@@ -29,7 +29,7 @@ if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark
         } 
     }
     fclose($studentsFile);
-    $studentMark = [$studentName, $studentSurname, $studentNumber, $_POST['subject'], $_POST['mark'], $_POST['notes']];
+    $studentMark = [$studentNumber, $_POST['subject'], $_POST['mark'], $_POST['notes']];
     $marksFile = fopen($marksFilename, 'a');
     fputcsv($marksFile, $studentMark);
     $saved = "Išsaugota";
