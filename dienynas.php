@@ -23,8 +23,6 @@ if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark
     $studentsFile = fopen($studentsFilename, "r");
     while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
         if ($studentData[0] === $_POST['student']) {
-            $studentName = $studentData[2];
-            $studentSurname = $studentData[1];
             $studentNumber = $studentData[0];
         } 
     }

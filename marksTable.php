@@ -8,25 +8,28 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     include 'errorTemplate.php';
     exit();
 }
+if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
+    $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu skaitymui!";
+    include 'errorTemplate.php';
+    exit();
+}
 
 $studentData = "";
 $i = 0;
-$allStudentsNumber = 0;
+$studentsCount = 0;
 $marksFile = fopen($marksFilename, "r");
 $studentsFile = fopen($studentsFilename, "r");
 while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
-    $allStudentsNumber = $allStudentsNumber+1;//$allStudentsNumber = 4
+    $studentsCount = $studentsCount+1;//$studentsCount = 4
+    $studentsArray[] = [$studentDataLine];
 }
-rewind($studentsFile);
 while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
-    for($a=0; $a < $allStudentsNumber; $a++) {//kartosis 12 kartų (3 pazymiai*4 stud)
-        $studentDataLine = fgetcsv($studentsFile, ",");
-        if ($studentDataLine[0] === $studentMarksDataLine[0]) {
+    for($row=0; $row < $studentsCount; $row++) {//kartosis 12 kartų (3 pazymiai*4 stud)
+        if ($studentsArray[$row][0][0] === $studentMarksDataLine[0]) {
             $i++;
-            $studentData .= "<tr><td>".$i."</td><td>{$studentDataLine[2]}</td><td>{$studentDataLine[1]}</td><td>{$studentMarksDataLine[0]}</td><td>{$studentMarksDataLine[1]}</td><td>{$studentMarksDataLine[2]}</td><td>{$studentMarksDataLine[3]}</td></tr>";
-        } 
+            $studentData .= "<tr><td>".$i."</td><td>{$studentsArray[$row][0][2]}</td><td>{$studentsArray[$row][0][1]}</td><td>{$studentMarksDataLine[0]}</td><td>{$studentMarksDataLine[1]}</td><td>{$studentMarksDataLine[2]}</td><td>{$studentMarksDataLine[3]}</td></tr>";
+        }
     }
-    rewind($studentsFile);
 }
 fclose($marksFile);
 fclose($studentsFile);
