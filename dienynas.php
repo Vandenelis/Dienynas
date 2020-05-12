@@ -16,18 +16,8 @@ if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
 }
 
 $saved = "";
-$studentNumber = "";
-$studentName = "";
-$studentSurname = "";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {
-    $studentsFile = fopen($studentsFilename, "r");
-    while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-        if ($studentData[0] === $_POST['student']) {
-            $studentNumber = $studentData[0];
-        } 
-    }
-    fclose($studentsFile);
-    $studentMark = [$studentNumber, $_POST['subject'], $_POST['mark'], $_POST['notes']];
+    $studentMark = [$_POST['student'], $_POST['subject'], $_POST['mark'], $_POST['notes']];
     $marksFile = fopen($marksFilename, 'a');
     fputcsv($marksFile, $studentMark);
     $saved = "Išsaugota";
