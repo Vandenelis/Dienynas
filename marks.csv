@@ -1,6 +1,9 @@
-Vardenis,Pavardenis,12345,Matematika,4,"Neišmoko Pitagoro teoremos"
-"Jonas Petras, Kazio",Buvočenis,10001,Dailė,7,
-Aušrinė-Saulė,Vakaraitė,10003,Literatūra,10,"Už dalyvavimą raiškiojo skaitymo konkurse"
-"Adam, Edvin",Malevski,10002,"Rusų kalba",10,"Puikiai pasirodė!"
-Dick,"von Lieberman",10004,Matematika,2,"Pabėgo iš pamokų!"
-,,,Matematika,7,
+12345,Matematika,7,
+10001,Anglų kalba,10,"Už dalyvavimą konkurse"
+10000,Dailė,4,
+12345,Fizika,2,
+10001,Literatūra,6,
+10002,Matematika,9,
+10000,Geografija,8,
+10002,Fizika,6,"Nu nu nu!"
+10000,"Rusų kalba",9,

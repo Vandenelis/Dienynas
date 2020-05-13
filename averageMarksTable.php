@@ -16,21 +16,33 @@ if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
 
 $studentData = "";
 $i = 0;
-$studentsCount = 0;
+$marksArray = [];
+$studentsArray = [];
 $marksFile = fopen($marksFilename, "r");
 $studentsFile = fopen($studentsFilename, "r");
-$studentsArray = [];
+while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
+    $marksArray[] = $studentMarksDataLine;
+}
 while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
     $studentsArray[] = $studentDataLine;
 }
-while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
-    foreach ($studentsArray as $student) {
-         if ($student[0] === $studentMarksDataLine[0]) {
-            $i++;
-            $studentData .= "<tr><td>".$i."</td><td>{$student[2]}</td><td>{$student[1]}</td><td>{$studentMarksDataLine[0]}</td><td>{$studentMarksDataLine[1]}</td><td>{$studentMarksDataLine[2]}</td><td>{$studentMarksDataLine[3]}</td></tr>";
-            break;
+foreach ($studentsArray as $student) {
+    $studentMarksSum = 0;
+    $equalsCount = 0;
+    foreach ($marksArray as $mark) {
+        if ($mark[0] === $student[0]) { 
+            $studentMarksSum = $studentMarksSum + $mark[2];
+            $equalsCount++;
         }
     }
+    if ($equalsCount>0) {
+        $studentAverageMark = $studentMarksSum/$equalsCount;
+        $i++;
+        $studentData .= "<tr><td>".$i."</td><td>{$student[2]} {$student[1]}</td><td>".$studentAverageMark."</td></tr>";
+    } else {
+        $i++;
+        $studentData .= "<tr><td>".$i."</td><td>{$student[2]} {$student[1]}</td><td>".$studentMarksSum."</td></tr>";
+    }    
 }
 fclose($marksFile);
 fclose($studentsFile);
@@ -44,12 +56,8 @@ fclose($studentsFile);
         <table border = 1>
             <tr>
                 <th>Eil. nr.</th>
-                <th>Vardas</th>
-                <th>Pavardė</th>
-                <th>Mokinio numeris</th>
-                <th>Dalykas</th>
-                <th>Pažymys</th>
-                <th>Pastabos, komentarai</th>
+                <th>Vardas,Pavardė</th>
+                <th>Bendras pažymių vidurkis</th>
             </tr>
             <?= $studentData?>
         </table>
