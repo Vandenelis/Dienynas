@@ -11,7 +11,7 @@ if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['nu
     if (file_exists($studentsFilename)) {
         $studentsFile = fopen($studentsFilename, "r");
         while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-            if ($studentData[0] === $_POST['numeris']) {//veikia!
+            if ($studentData[0] === $_POST['numeris']) {
                 $studentNumberMessage = "Toks mokinio numeris jau panaudotas, įveskite kitą skaičių.";
             }
         }
