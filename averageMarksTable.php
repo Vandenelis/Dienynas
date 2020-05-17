@@ -2,12 +2,12 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 $marksFilename = 'marks.csv';
-$studentsFilename = 'students.csv';
 if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių pažymiais skaitymui!";
     include 'errorTemplate.php';
     exit();
 }
+$studentsFilename = 'students.csv';
 if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
     $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu skaitymui!";
     include 'errorTemplate.php';
@@ -15,25 +15,37 @@ if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
 }
 
 $studentData = "";
-$i = 0;
-$studentsCount = 0;
-$marksFile = fopen($marksFilename, "r");
-$studentsFile = fopen($studentsFilename, "r");
+$marksArray = [];
 $studentsArray = [];
+$marksFile = fopen($marksFilename, "r");
+while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
+    $marksArray[] = $studentMarksDataLine;
+}
+fclose($marksFile);
+$studentsFile = fopen($studentsFilename, "r");
 while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
     $studentsArray[] = $studentDataLine;
 }
-while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
-    foreach ($studentsArray as $student) {
-         if ($student[0] === $studentMarksDataLine[0]) {
-            $i++;
-            $studentData .= "<tr><td>".$i."</td><td>{$student[2]}</td><td>{$student[1]}</td><td>{$studentMarksDataLine[0]}</td><td>{$studentMarksDataLine[1]}</td><td>{$studentMarksDataLine[2]}</td><td>{$studentMarksDataLine[3]}</td></tr>";
-            break;
+fclose($studentsFile);
+$i = 0;
+foreach ($studentsArray as $student) {
+    $studentMarksSum = 0;
+    $studentMarksCount = 0;
+    foreach ($marksArray as $mark) {
+        if ($mark[0] === $student[0]) { 
+            $studentMarksSum += $mark[2];
+            $studentMarksCount++;
         }
     }
+    if ($studentMarksCount>0) {
+        $studentAverageMark = $studentMarksSum / $studentMarksCount;
+        $i++;
+        $studentData .= "<tr><td>".$i."</td><td>{$student[2]} {$student[1]}</td><td>".$studentAverageMark."</td></tr>";
+    } else {
+        $i++;
+        $studentData .= "<tr><td>".$i."</td><td>{$student[2]} {$student[1]}</td><td>0</td></tr>";
+    }    
 }
-fclose($marksFile);
-fclose($studentsFile);
 ?>
 <!DOCTYPE html>
 <html lang="lt">
@@ -44,12 +56,8 @@ fclose($studentsFile);
         <table border = 1>
             <tr>
                 <th>Eil. nr.</th>
-                <th>Vardas</th>
-                <th>Pavardė</th>
-                <th>Mokinio numeris</th>
-                <th>Dalykas</th>
-                <th>Pažymys</th>
-                <th>Pastabos, komentarai</th>
+                <th>Vardas,Pavardė</th>
+                <th>Bendras pažymių vidurkis</th>
             </tr>
             <?= $studentData?>
         </table>
