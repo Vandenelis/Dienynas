@@ -1,10 +1,8 @@
 <?php
 $studentsFilename = 'students.csv';
-if (file_exists($studentsFilename) and (!is_writable($studentsFilename) or !is_readable($studentsFilename))) {
-    $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu rašymui arba skaitymui!";
-    include 'errorTemplate.php';
-    exit();
-}
+include 'studentsFile.php';
+students("rašymui arba");
+
 $saved = "";
 $studentNumberMessage = "";    
 if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {

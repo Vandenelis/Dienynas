@@ -9,11 +9,8 @@ if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
     exit();
 }
 $studentsFilename = 'students.csv';
-if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
-    $errorMessage = "Nepavyksta atidaryti failo skaitymui su mokinių sąrašu!";
-    include 'errorTemplate.php';
-    exit();
-}
+include 'studentsFile.php';
+students("");
 
 $saved = "";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {
