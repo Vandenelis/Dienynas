@@ -9,28 +9,31 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
 }
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
-students("");
+studentsFileReadable();
 
 $studentData = "";
-$i = 0;
-$studentsCount = 0;
+$studentsArray = [];
+$marksArray = [];
 $marksFile = fopen($marksFilename, "r");
 $studentsFile = fopen($studentsFilename, "r");
-$studentsArray = [];
 while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
     $studentsArray[] = $studentDataLine;
 }
+fclose($studentsFile);
 while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
-    foreach ($studentsArray as $student) {
-         if ($student[0] === $studentMarksDataLine[0]) {
+    $marksArray[] = $studentMarksDataLine;
+}
+fclose($marksFile);
+$i = 0;
+foreach ($studentsArray as $student) {
+    foreach ($marksArray as $mark) {
+        if (checkingStudentNumber($mark[0], $student[0])) {
             $i++;
-            $studentData .= "<tr><td>".$i."</td><td>{$student[2]}</td><td>{$student[1]}</td><td>{$studentMarksDataLine[0]}</td><td>{$studentMarksDataLine[1]}</td><td>{$studentMarksDataLine[2]}</td><td>{$studentMarksDataLine[3]}</td></tr>";
-            break;
+            $studentData .= "<tr><td>".$i."</td><td>{$student[2]}</td><td>{$student[1]}</td><td>{$mark[0]}</td><td>{$mark[1]}</td><td>{$mark[2]}</td><td>{$mark[3]}</td></tr>";
         }
     }
 }
-fclose($marksFile);
-fclose($studentsFile);
+
 ?>
 <!DOCTYPE html>
 <html lang="lt">

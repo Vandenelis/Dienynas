@@ -9,31 +9,31 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
 }
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
-students("");
+studentsFileReadable();
 
 $studentData = "";
-$marksArray = [];
 $studentsArray = [];
+$marksArray = [];
 $marksFile = fopen($marksFilename, "r");
-while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
-    $marksArray[] = $studentMarksDataLine;
-}
-fclose($marksFile);
 $studentsFile = fopen($studentsFilename, "r");
 while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
     $studentsArray[] = $studentDataLine;
 }
 fclose($studentsFile);
+while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
+    $marksArray[] = $studentMarksDataLine;
+}
+fclose($marksFile);
 $i = 0;
 foreach ($studentsArray as $student) {
     $studentMarksSum = 0;
     $studentMarksCount = 0;
     foreach ($marksArray as $mark) {
-        if ($mark[0] === $student[0]) { 
+        if (checkingStudentNumber($mark[0], $student[0])) { 
             $studentMarksSum += $mark[2];
             $studentMarksCount++;
         }
-    }
+    }    
     if ($studentMarksCount>0) {
         $studentAverageMark = $studentMarksSum / $studentMarksCount;
         $i++;
