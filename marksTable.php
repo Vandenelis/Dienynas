@@ -16,6 +16,7 @@ $studentsArray = [];
 $marksArray = [];
 $marksFile = fopen($marksFilename, "r");
 $studentsFile = fopen($studentsFilename, "r");
+$studentsArray = [];
 while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
     $studentsArray[] = $studentDataLine;
 }
