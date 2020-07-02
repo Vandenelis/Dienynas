@@ -7,19 +7,14 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     include 'errorTemplate.php';
     exit();
 }
-$studentsFilename = 'students.csv';
 include 'studentsFile.php';
 studentsFileReadable();
 
 $studentData = "";
 $studentsArray = [];
+$studentsArray = studentsArray();
 $marksArray = [];
 $marksFile = fopen($marksFilename, "r");
-$studentsFile = fopen($studentsFilename, "r");
-while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
-    $studentsArray[] = $studentDataLine;
-}
-fclose($studentsFile);
 while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
     $marksArray[] = $studentMarksDataLine;
 }
@@ -29,7 +24,7 @@ foreach ($studentsArray as $student) {
     $studentMarksSum = 0;
     $studentMarksCount = 0;
     foreach ($marksArray as $mark) {
-        if (checkingStudentNumber($mark[0], $student[0])) { 
+        if ($mark[0]===$student[0]) { 
             $studentMarksSum += $mark[2];
             $studentMarksCount++;
         }

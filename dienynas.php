@@ -10,7 +10,7 @@ if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
 }
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
-students("");
+studentsFileReadable("");
 
 $saved = "";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {

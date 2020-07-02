@@ -9,15 +9,20 @@ function studentsFileWritable() {
 }
 function studentsFileReadable() {
     $studentsFilename = 'students.csv';
-        if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
-            $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu skaitymui!";
-            include 'errorTemplate.php';
-            exit();
-        }
-}
-function checkingStudentNumber($studentNumber1, $studentNumber2) {
-    if ($studentNumber1 === $studentNumber2) {
-        return true;
+    if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
+        $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu skaitymui!";
+        include 'errorTemplate.php';
+        exit();
     }
+}
+function studentsArray() {
+    $studentsFilename = 'students.csv';
+    $studentsFile = fopen($studentsFilename, "r");
+    $array = [];
+    while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
+        $array[] = $studentDataLine;
+    }
+    fclose($studentsFile);
+    return $array;
 }
 ?>

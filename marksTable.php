@@ -13,14 +13,9 @@ studentsFileReadable();
 
 $studentData = "";
 $studentsArray = [];
+$studentsArray = studentsArray();
 $marksArray = [];
 $marksFile = fopen($marksFilename, "r");
-$studentsFile = fopen($studentsFilename, "r");
-$studentsArray = [];
-while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
-    $studentsArray[] = $studentDataLine;
-}
-fclose($studentsFile);
 while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){
     $marksArray[] = $studentMarksDataLine;
 }
@@ -28,7 +23,7 @@ fclose($marksFile);
 $i = 0;
 foreach ($studentsArray as $student) {
     foreach ($marksArray as $mark) {
-        if (checkingStudentNumber($mark[0], $student[0])) {
+        if ($mark[0]===$student[0]) {
             $i++;
             $studentData .= "<tr><td>".$i."</td><td>{$student[2]}</td><td>{$student[1]}</td><td>{$mark[0]}</td><td>{$mark[1]}</td><td>{$mark[2]}</td><td>{$mark[3]}</td></tr>";
         }
