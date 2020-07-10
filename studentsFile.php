@@ -1,5 +1,5 @@
 <?php
-function studentsFileWritable() {
+function checkIfStudentsFileExistsAndIsWritable() {
     $studentsFilename = 'students.csv';
     if (file_exists($studentsFilename) and (!is_writable($studentsFilename) or !is_readable($studentsFilename))) {
         $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu rašymui arba skaitymui!";
@@ -7,7 +7,7 @@ function studentsFileWritable() {
         exit();
     }
 }
-function studentsFileReadable() {
+function checkIfStudentsFileExistAndIsReadable() {
     $studentsFilename = 'students.csv';
     if (!file_exists($studentsFilename) or !is_readable($studentsFilename)) {
         $errorMessage = "Nepavyksta atidaryti failo su mokinių sąrašu skaitymui!";
@@ -15,14 +15,13 @@ function studentsFileReadable() {
         exit();
     }
 }
-function studentsArray() {
+function getAllStudentsAsArray() {
     $studentsFilename = 'students.csv';
     $studentsFile = fopen($studentsFilename, "r");
-    $array = [];
     while(($studentDataLine = fgetcsv($studentsFile, ",")) !== FALSE){
-        $array[] = $studentDataLine;
+        $studentsFileArray[] = $studentDataLine;
     }
     fclose($studentsFile);
-    return $array;
+    return $studentsFileArray;
 }
 ?>

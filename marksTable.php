@@ -9,11 +9,11 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
 }
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
-studentsFileReadable();
+checkIfStudentsFileExistAndIsReadable();
 
 $studentData = "";
 $studentsArray = [];
-$studentsArray = studentsArray();
+$studentsArray = getAllStudentsAsArray();
 $marksArray = [];
 $marksFile = fopen($marksFilename, "r");
 while(($studentMarksDataLine = fgetcsv($marksFile, ",")) !== FALSE){

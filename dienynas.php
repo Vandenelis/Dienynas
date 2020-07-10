@@ -10,7 +10,7 @@ if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
 }
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
-studentsFileReadable("");
+checkIfStudentsFileExistAndIsReadable();
 
 $saved = "";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {
@@ -22,12 +22,10 @@ if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark
 }
 
 $studentOptions = "";
-$studentsFile = fopen($studentsFilename, "r");
-if ($studentsFile !== FALSE) {
-    while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-        $studentOptions .= "<option value = '$studentData[0]'>{$studentData[2]} {$studentData[1]} </option>";
-    }
-    fclose($studentsFile);
+$studentsArray = [];
+$studentsArray = getAllStudentsAsArray();
+foreach ($studentsArray as $student) {
+    $studentOptions .= "<option value = '$student[0]'>{$student[2]} {$student[1]}</option>";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">

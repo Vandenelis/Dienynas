@@ -1,7 +1,7 @@
 <?php
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
-students("rašymui arba");
+checkIfStudentsFileExistsAndIsWritable();
 
 $saved = "";
 $studentNumberMessage = "";    
