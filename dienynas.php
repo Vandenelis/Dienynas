@@ -8,9 +8,6 @@ if (!file_exists($marksFilename) or !is_writable($marksFilename)) {
     include 'errorTemplate.php';
     exit();
 }
-$studentsFilename = 'students.csv';
-include 'studentsFile.php';
-checkIfStudentsFileExistAndIsReadable();
 
 $saved = "";
 if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark']) and isset($_POST['notes'])) {
@@ -21,8 +18,9 @@ if (isset($_POST['student']) and isset($_POST['subject']) and isset($_POST['mark
     fclose($marksFile);
 }
 
+$studentsFilename = 'students.csv';
+include 'studentsFile.php';
 $studentOptions = "";
-$studentsArray = [];
 $studentsArray = getAllStudentsAsArray();
 foreach ($studentsArray as $student) {
     $studentOptions .= "<option value = '$student[0]'>{$student[2]} {$student[1]}</option>";

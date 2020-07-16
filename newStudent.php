@@ -2,27 +2,8 @@
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
 checkIfStudentsFileExistsAndIsWritable();
+$message = saveNewStudent();
 
-$saved = "";
-$studentNumberMessage = "";    
-if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {
-    if (file_exists($studentsFilename)) {
-        $studentsFile = fopen($studentsFilename, "r");
-        while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-            if ($studentData[0] === $_POST['numeris']) {
-                $studentNumberMessage = "Toks mokinio numeris jau panaudotas, įveskite kitą skaičių.";
-            }
-        }
-        fclose($studentsFile);
-    }
-    if (empty($studentNumberMessage)) {
-        $duomenys = [$_POST['numeris'], $_POST['pavarde'], $_POST['vardas']];
-        $studentsFile = fopen($studentsFilename, 'a');//jei failo nėra, tai jis bus sukurtas
-        fputcsv($studentsFile, $duomenys);
-        fclose($studentsFile);
-        $saved = "Išsaugota"; 
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="lt">
@@ -30,8 +11,7 @@ if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['nu
         <title>Vardai ir Pavardės</title>
     </head>
     <body>
-        <p><?= $studentNumberMessage?></p>
-        <p><?= $saved?></p>
+        <p><?= $message?></p>
         <h2>Įrašykite naujo mokinio duomenis</h2>
         <form method="post">
 Vardas:<br>

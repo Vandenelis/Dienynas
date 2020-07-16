@@ -7,9 +7,9 @@ if (!file_exists($marksFilename) or !is_readable($marksFilename)) {
     include 'errorTemplate.php';
     exit();
 }
-include 'studentsFile.php';
-checkIfStudentsFileExistAndIsReadable();
 
+$studentsFilename = 'students.csv';
+include 'studentsFile.php';
 $studentData = "";
 $studentsArray = getAllStudentsAsArray();
 $marksArray = [];
