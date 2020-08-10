@@ -24,26 +24,36 @@ function getAllStudentsAsArray() {
     return $studentsFileArray;
 }
 function saveNewStudent() {
+    $saved = "";
     $message = "";
     $studentsFilename = 'students.csv';
-    if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {
+    if (!isset($_POST['vardas']) and !isset($_POST['pavarde']) and !isset($_POST['numeris'])){
+        $vardas = null;
+        $pavarde = null;
+        $numeris = null;
+    } else {
+        $vardas = $_POST['vardas'];
+        $pavarde = $_POST['pavarde'];
+        $numeris = $_POST['numeris'];
         if (file_exists($studentsFilename)) {
             $studentsFile = fopen($studentsFilename, "r");
             while (($studentData = fgetcsv($studentsFile, ",")) !== FALSE) {
-                if ($studentData[0] === $_POST['numeris']) {
+                if ($studentData[0] === $numeris) {
                     $message = "Toks mokinio numeris jau panaudotas, įveskite kitą skaičių.";
                 }
             }
             fclose($studentsFile);
+            //return;// $message; // kai nėra return message, yra return null atskiruose if, išsaugo, kai yra tik return ir return null neišsaugo
         }
         if (empty($message)) {
-            $duomenys = [$_POST['numeris'], $_POST['pavarde'], $_POST['vardas']];
+            $duomenys = [$numeris, $pavarde, $vardas];
             $studentsFile = fopen($studentsFilename, 'a');//jei failo nėra, tai jis bus sukurtas
             fputcsv($studentsFile, $duomenys);
             fclose($studentsFile);
-            $message = "Išsaugota"; 
+            $saved = "Išsaugota";
+            return;// null; //kai nėra return null, o yra return message, return ir return atskiruose if, neišsaugo
         }
     }
-    return $message;
+    return;// $message;//kai tik čia return, išsaugo. kai trys return, neišsaugo, kai čia return ir return null (arba tas be null) išsaugo, kai return, return null ir return, neišsaugo, 
 }
 ?>

@@ -2,8 +2,17 @@
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
 checkIfStudentsFileExistsAndIsWritable();
-$message = saveNewStudent();
-
+$message = "";
+$saved = "";
+if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {
+    var_dump(saveNewStudent());
+    if (saveNewStudent() === '') {
+        $saved = "Išsaugota";
+    } else {
+        $message = saveNewStudent();
+    }
+        
+}
 ?>
 <!DOCTYPE html>
 <html lang="lt">
@@ -12,6 +21,7 @@ $message = saveNewStudent();
     </head>
     <body>
         <p><?= $message?></p>
+        <p><?= $saved?></p>
         <h2>Įrašykite naujo mokinio duomenis</h2>
         <form method="post">
 Vardas:<br>
