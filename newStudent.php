@@ -5,7 +5,6 @@ checkIfStudentsFileExistsAndIsWritable();
 $message = "";
 $saved = "";
 if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {
-    //var_dump(saveNewStudent($_POST['numeris'], $_POST['pavarde'], $_POST['vardas']));
     if (saveNewStudent($_POST['numeris'], $_POST['pavarde'], $_POST['vardas']) ==! null) {
         $message = saveNewStudent($_POST['numeris'], $_POST['pavarde'], $_POST['vardas']);
     } else {

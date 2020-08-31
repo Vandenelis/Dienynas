@@ -37,7 +37,7 @@ function saveNewStudent($numeris, $pavarde, $vardas) {
         fclose($studentsFile);
         
         $duomenys = [$numeris, $pavarde, $vardas];
-        $studentsFile = fopen($studentsFilename, 'a');//jei failo nėra, tai jis bus sukurtas
+        $studentsFile = fopen($studentsFilename, 'a');
         fputcsv($studentsFile, $duomenys);
         fclose($studentsFile);
     }
