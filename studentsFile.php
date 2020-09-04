@@ -36,6 +36,13 @@ function saveNewStudent($numeris, $pavarde, $vardas) {
         }
         fclose($studentsFile);
         
+        if (strlen($numeris)<5) {
+            return "Mokinio numeris yra per trumpas.";
+        }
+        if (strlen($numeris)>5) {
+            return "Mokinio numeris yra per ilgas.";
+        }
+        
         $duomenys = [$numeris, $pavarde, $vardas];
         $studentsFile = fopen($studentsFilename, 'a');
         fputcsv($studentsFile, $duomenys);

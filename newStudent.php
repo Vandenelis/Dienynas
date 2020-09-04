@@ -2,11 +2,20 @@
 $studentsFilename = 'students.csv';
 include 'studentsFile.php';
 checkIfStudentsFileExistsAndIsWritable();
+$vardas = "";
+$pavarde = "";
+$numeris = "";
 $message = "";
 $saved = "";
 if (!empty($_POST['vardas']) and !empty($_POST['pavarde']) and !empty($_POST['numeris'])) {
-    if (saveNewStudent($_POST['numeris'], $_POST['pavarde'], $_POST['vardas']) ==! null) {
-        $message = saveNewStudent($_POST['numeris'], $_POST['pavarde'], $_POST['vardas']);
+    $vardas = $_POST['vardas'];
+    $pavarde = $_POST['pavarde'];
+    $numeris = $_POST['numeris'];
+    $vardas = preg_replace('/[^a-zA-Z\' ]/', '', $vardas);
+    $pavarde = preg_replace('/[^a-zA-Z\' ]/', '', $pavarde);
+    $numeris = preg_replace('/[^0-9\' ]/', '', $numeris);    //varde ir pavardėje nebus išsaugomi skaičiai ir ženklai,mokinio numeryje - raidės ir ženklai
+    if (saveNewStudent($numeris, $pavarde, $vardas) ==! null) {
+        $message = saveNewStudent($numeris, $pavarde, $vardas);
     } else {
         $saved = "Išsaugota";
     }
