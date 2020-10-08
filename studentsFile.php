@@ -40,7 +40,7 @@ function saveNewStudent($numeris, $pavarde, $vardas) {
             return "Mokinio numeris yra per trumpas.";
         }
         if (strlen($numeris)>5) {
-            return "Mokinio numeris yra per ilgas.";
+            return "Mokinio numeris yra per ilgas .";
         }
         
         $duomenys = [$numeris, $pavarde, $vardas];
